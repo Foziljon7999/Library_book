@@ -1,0 +1,27 @@
+
+services:
+  db:
+    networks:
+      - ntSearch
+    image: postgres
+    environment:
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: library
+  backend:
+    image: library-books
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+    networks:
+      - ntSearch
+
+networks:
+  ntSearch: 
+    driver: bridge
